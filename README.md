@@ -57,7 +57,7 @@ Code :
 Output :
 ![img_1.png](img_1.png)
 
-### CREATE CUSTOMER WITH BLANK NAME
+### CREATE CUSTOMER WITH BLANK NAME (FAILED ON SERVICE)
 Code :
 ````java
 @Test
@@ -78,7 +78,7 @@ Code :
 ````
 Output : ![img_5.png](img_5.png)
 
-### CREATE WITH WRONG DATE FORMAT
+### CREATE WITH WRONG DATE FORMAT (FAILED ON SERVICE)
 Code :
 ````java
 @Test
@@ -99,7 +99,7 @@ public void testCreateInvalidDateFormat () throws ParseException {
 ````
 Output : ![img_6.png](img_6.png)
 
-### CREATE WITH NULL BIRTH DATE
+### CREATE WITH NULL BIRTH DATE (FAILED ON SERVICE)
 Code :
 ````java
 @Test
