@@ -113,6 +113,21 @@ Output : ![img_3.png](img_3.png)
 
 ## DELETE
 ### DELETE SUCCESS
+Code :
+````java
+@Test
+    public void delete() {
+        // When
+        Mockito.when(customerRepository.findById(any(Integer.class))).thenReturn(Optional.of(initialCust));
+        customerService.delete(1);
+        Customer getDeleteCustomer = customerService.getOne(1);
 
+        // Then
+//        assertNull(getDeleteCustomer);
+        Mockito.verify(customerRepository, Mockito.times(1)).findById(1);
+        Mockito.verify(customerRepository, Mockito.times(1)).deleteById(1);
+    }
+````
+Output : ![img_4.png](img_4.png)
 
 
