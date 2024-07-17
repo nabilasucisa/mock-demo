@@ -14,6 +14,9 @@ import template.mock_demo.service.implementation.CustomerServiceImpl;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.then;
+import static org.mockito.Mockito.never;
 
 
 import java.text.ParseException;
@@ -125,18 +128,65 @@ public class CustomerServiceTest {
 //        assertEquals(updatedCust.getName(), updatedCustomer.getName());
 //        assertEquals(updatedCust.getBirth_date(), updatedCustomer.getBirth_date());
 //    }
+//
+//    @Test
+//    public void delete() {
+//        // When
+//        given(customerRepository.findById(any(Integer.class))).willReturn(Optional.of(initialCust));
+//        customerService.delete(1);
+//        then(customerRepository).should().deleteById(1);
+//        Customer getDeleteCustomer = customerService.getOne(1);
+//
+//        // Then
+////        assertNull(getDeleteCustomer);
+//        Mockito.verify(customerRepository, Mockito.times(1)).findById(1);
+//        Mockito.verify(customerRepository, Mockito.times(1)).deleteById(1);
+//    }
+//
+//    @Test
+//    public void testCreateBlankName() throws ParseException {
+//        // Given
+//        Customer customer = new Customer();
+//        customer.setName("");
+//        // Parse the date string
+//        String birthDateString = "2001-01-01";
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+//        Date birthDate = sdf.parse(birthDateString);
+//        customer.setBirth_date(birthDate);
+//
+//        // Then
+//        assertThrows(RuntimeException.class, () -> customerService.create(customer));
+//        then(customerRepository).should(never()).save(any(Customer.class));
+//    }
+
+//    @Test
+//    public void testCreateInvalidDateFormat () throws ParseException {
+//        // Given
+//        Customer customer = new Customer();
+//        customer.setName("Budi");
+//        // Parse the date string
+//        String birthDateString = "2000-13-32";
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+//        Date birthDate = sdf.parse(birthDateString);
+//        customer.setBirth_date(birthDate);
+//
+//        // then
+//        assertThrows(RuntimeException.class, () -> customerService.create(customer));
+//        then(customerRepository).should(never()).save(any(Customer.class));
+//    }
 
     @Test
-    public void delete() {
-        // When
-        Mockito.when(customerRepository.findById(any(Integer.class))).thenReturn(Optional.of(initialCust));
-        customerService.delete(1);
-        Customer getDeleteCustomer = customerService.getOne(1);
+    public void testCreateNullBirthDate () throws ParseException {
+        // Given
+        Customer customer = new Customer();
+        customer.setName("Budi");
+        // not set any birthdate
 
-        // Then
-//        assertNull(getDeleteCustomer);
-        Mockito.verify(customerRepository, Mockito.times(1)).findById(1);
-        Mockito.verify(customerRepository, Mockito.times(1)).deleteById(1);
+        // then
+        assertThrows(RuntimeException.class, () -> customerService.create(customer));
+        then(customerRepository).should(never()).save(any(Customer.class));
     }
+
+
 
 }

@@ -57,6 +57,65 @@ Code :
 Output :
 ![img_1.png](img_1.png)
 
+### CREATE CUSTOMER WITH BLANK NAME
+Code :
+````java
+@Test
+    public void testCreateBlankName() throws ParseException {
+        // Given
+        Customer customer = new Customer();
+        customer.setName("");
+        // Parse the date string
+        String birthDateString = "2001-01-01";
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date birthDate = sdf.parse(birthDateString);
+        customer.setBirth_date(birthDate);
+
+        // Then
+        assertThrows(RuntimeException.class, () -> customerService.create(customer));
+        then(customerRepository).should(never()).save(any(Customer.class));
+    }
+````
+Output : ![img_5.png](img_5.png)
+
+### CREATE WITH WRONG DATE FORMAT
+Code :
+````java
+@Test
+public void testCreateInvalidDateFormat () throws ParseException {
+    // Given
+    Customer customer = new Customer();
+    customer.setName("Budi");
+    // Parse the date string
+    String birthDateString = "2000-13-32";
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    Date birthDate = sdf.parse(birthDateString);
+    customer.setBirth_date(birthDate);
+
+    // then
+    assertThrows(RuntimeException.class, () -> customerService.create(customer));
+    then(customerRepository).should(never()).save(any(Customer.class));
+}
+````
+Output : ![img_6.png](img_6.png)
+
+### CREATE WITH NULL BIRTH DATE
+Code :
+````java
+@Test
+    public void testCreateNullBirthDate () throws ParseException {
+        // Given
+        Customer customer = new Customer();
+        customer.setName("Budi");
+        // not set any birthdate
+
+        // then
+        assertThrows(RuntimeException.class, () -> customerService.create(customer));
+        then(customerRepository).should(never()).save(any(Customer.class));
+    }
+````
+Output : ![img_7.png](img_7.png)
+
 ## GET BY ID
 ### GET BY ID SUCCESS
 Code :

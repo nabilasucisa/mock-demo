@@ -6,6 +6,9 @@ import template.mock_demo.model.Customer;
 import template.mock_demo.repository.CustomerRepository;
 import template.mock_demo.service.CustomerService;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -15,6 +18,16 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Customer create(Customer request) {
+        if (request.getName().isBlank()) {
+            throw new RuntimeException("Name cannot be blank");
+        }
+        if (request.getBirth_date()==null) {
+            throw new RuntimeException("Birthdate cannot be null");
+        }
+        if (!isValidDateFormat(request.getBirth_date())) {
+            throw new RuntimeException("Invalid birth_date format");
+        }
+
         return customerRepository.save(request);
     }
 
@@ -40,5 +53,14 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public void delete(Integer id) {
         customerRepository.deleteById(id);
+    }
+
+    private boolean isValidDateFormat(Date date) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        sdf.setLenient(false); // Disable lenient parsing
+        String formattedDate = sdf.format(date);
+
+        // Check if the formatted date matches the input date string
+        return formattedDate.equals(date.toString());
     }
 }
