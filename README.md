@@ -43,7 +43,7 @@ Code :
         Date birthDate1 = sdf.parse(birthDateString1);
         Date birthDate2 = sdf.parse(birthDateString2);
         Customer customer1 = new Customer(1, "Budi", birthDate1);
-        Customer customer2 = new Customer(1, "Budi", birthDate1);
+        Customer customer2 = new Customer(2, "Doremi", birthDate1);
 
         // when
         Mockito.when(customerRepository.findAll()).thenReturn(List.of(customer1, customer2));
@@ -56,6 +56,63 @@ Code :
 ````
 Output :
 ![img_1.png](img_1.png)
+
+## GET BY ID
+### GET BY ID SUCCESS
+Code :
+````java
+@Test
+    public void testGetById() throws ParseException {
+        // given
+        String birthDateString = "2001-01-01";
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date birthDate = sdf.parse(birthDateString);
+        Customer customer = new Customer(1, "Budi", birthDate);
+
+        // when
+        Mockito.when(customerRepository.findById(1)).thenReturn(Optional.of(customer));
+        Customer getOneCust = customerService.getOne(1);
+
+        // then
+        assertNotNull(getOneCust);
+        assertEquals("Budi", getOneCust.getName());
+        assertEquals(birthDate, getOneCust.getBirth_date());
+    }
+````
+Output : ![img_2.png](img_2.png)
+
+## UPDATE
+### UPDATE SUCCESS
+Code :
+````java
+    @Test
+    public void update() throws ParseException {
+        // Given
+        // Update
+        Customer updatedCust = new Customer();
+        updatedCust.setId(1);
+        updatedCust.setName("Updated Budi");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String birthDateStringUpd = "2002-02-02";
+        Date birthDateUpd = sdf.parse(birthDateStringUpd);
+        updatedCust.setBirth_date(birthDateUpd);
+
+        // When
+        Mockito.when(customerRepository.findById(any(Integer.class))).thenReturn(Optional.of(initialCust));
+        Mockito.when(customerRepository.save(any(Customer.class))).thenReturn(initialCust);
+        Customer updatedCustomer = customerService.update(updatedCust, updatedCust.getId());
+
+        // Then
+        Mockito.verify(customerRepository, Mockito.times(1)).findById(1);
+        Mockito.verify(customerRepository, Mockito.times(1)).save(initialCust);
+        assertEquals(updatedCust.getName(), updatedCustomer.getName());
+        assertEquals(updatedCust.getBirth_date(), updatedCustomer.getBirth_date());
+    }
+````
+Output : ![img_3.png](img_3.png)
+
+## DELETE
+### DELETE SUCCESS
 
 
 
