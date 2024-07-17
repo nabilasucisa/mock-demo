@@ -21,8 +21,10 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @NotBlank
     String name;
 
+    @NotNull
     @JsonFormat(pattern = "yyyy-MM-dd")
     Date birth_date;
 

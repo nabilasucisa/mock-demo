@@ -16,16 +16,15 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Customer create(Customer request) {
-        if (request.getName().isBlank()) {
-            throw new RuntimeException("Name cannot be blank");
-        }
-        if (request.getBirth_date()==null) {
-            throw new RuntimeException("Birthdate cannot be null");
-        }
-        if (!isValidDateFormat(request.getBirth_date())) {
-            throw new RuntimeException("Invalid birth_date format");
-        }
-
+//        if (request.getName().isBlank()) {
+//            throw new RuntimeException("Name cannot be blank");
+//        }
+//        if (request.getBirth_date()==null) {
+//            throw new RuntimeException("Birthdate cannot be null");
+//        }
+//        if (!isValidDateFormat(request.getBirth_date())) {
+//            throw new RuntimeException("Invalid birth_date format");
+//        }
         return customerRepository.save(request);
     }
 
@@ -53,10 +52,10 @@ public class CustomerServiceImpl implements CustomerService {
         customerRepository.deleteById(id);
     }
 
-    private boolean isValidDateFormat(Date date) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        sdf.setLenient(false);
-        String formattedDate = sdf.format(date);
-        return formattedDate.equals(date.toString());
-    }
+//    private boolean isValidDateFormat(Date date) {
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+//        sdf.setLenient(false);
+//        String formattedDate = sdf.format(date);
+//        return formattedDate.equals(date.toString());
+//    }
 }
