@@ -5,8 +5,6 @@ import org.springframework.stereotype.Service;
 import template.mock_demo.model.Customer;
 import template.mock_demo.repository.CustomerRepository;
 import template.mock_demo.service.CustomerService;
-
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -57,10 +55,8 @@ public class CustomerServiceImpl implements CustomerService {
 
     private boolean isValidDateFormat(Date date) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        sdf.setLenient(false); // Disable lenient parsing
+        sdf.setLenient(false);
         String formattedDate = sdf.format(date);
-
-        // Check if the formatted date matches the input date string
         return formattedDate.equals(date.toString());
     }
 }
