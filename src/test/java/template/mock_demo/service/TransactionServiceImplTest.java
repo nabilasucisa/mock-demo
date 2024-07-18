@@ -18,6 +18,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -148,6 +149,25 @@ public class TransactionServiceImplTest {
         assertEquals(result, updateTrans);
         verify(transactionRepository).findById(id);
         verify(transactionRepository).save(any(Transaction.class));
+    }
+
+    @Test
+    void testTransactionDelete_Success() {
+        // Arrange
+        Integer id = 1;
+        when(transactionRepository.findById(id))
+                .thenReturn(Optional.of(transaction))
+                .thenReturn(Optional.empty());
+        doNothing().when(transactionRepository).delete(transaction);
+
+        // Act
+        transactionService.delete(id);
+
+        // Assert
+        verify(transactionRepository).findById(id);
+        verify(transactionRepository).delete(transaction);
+        Optional<Transaction> deleted = transactionRepository.findById(id);
+        assertThat(deleted).isEmpty();
     }
 
 }

@@ -58,6 +58,7 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public void delete(Integer id) {
-        transactionRepository.deleteById(id);
+        Transaction transaction = getOne(id);
+        transactionRepository.delete(transaction);
     }
 }
